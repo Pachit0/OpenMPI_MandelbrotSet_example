@@ -35,10 +35,13 @@ int workerID = 1;
 pthread_mutex_t lock;
 
 int main(int argc, char **argv) {
-    int rank, size, hostNameLength;
+    int rank, size, provided, hostNameLength;
     char hostName[MPI_MAX_PROCESSOR_NAME];
 
-    MPI_Init(&argc, &argv);
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
+    if(provided < MPI_THREAD_MULTIPLE){
+        MPI_Abort(MPI_COMM_WORLD, 1);
+    }
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Get_processor_name(hostName, &hostNameLength);
@@ -96,14 +99,6 @@ int main(int argc, char **argv) {
 	}
 
 	free(threadArray);
-        
-	Color_t* receiveBuffer = (Color_t*)malloc(WIDTH * CHUNK * sizeof(Color_t));
-	if(!receiveBuffer){
-	    printf("Receive buffer alloc failed!\n");
-	    MPI_Finalize();
-	    return 0;
-	}
-
 	MPI_Status status;
 
 	while(activeWorkers > 0){
@@ -139,14 +134,13 @@ int main(int argc, char **argv) {
 	}
 
         free(globalImage);
-        free(receiveBuffer);
         pthread_mutex_destroy(&lock);
     } else {
         Color_t* localBuffer = (Color_t*)malloc(sizeof(Color_t) * WIDTH * CHUNK);
 	if(!localBuffer) {
 	    MPI_Abort(MPI_COMM_WORLD, 1);
 	}
-
+	
 	MPI_Status status;
 	while(1){
 	    int workPacket[2];
@@ -264,7 +258,7 @@ void* workerThreadFunction(void* arg){
 void* fileWriterThreadFunction(void* arg){
     Color_t* buffer = (Color_t*)arg;
 
-    FILE* fp = fopen("mandelbrotSet.ppm", "wb");
+    FILE* fp = fopen("mandelbrot_set_image.ppm", "wb");
     
     if (fp) {
         fprintf(fp, "P6\n%d %d\n255\n", WIDTH, HEIGHT);

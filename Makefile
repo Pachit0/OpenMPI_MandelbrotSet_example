@@ -2,8 +2,8 @@ CC	:= mpicc
 CFLAGS	:= -Wall
 LDLIBS	:= -lgmp
 
-TARGET	:= mandelBrotSet
-SRCS	:= hello_mpi.c
+TARGET	:= mandelbrot_set
+SRCS	:= mandelbrot_set.c
 OBJS	:= $(SRCS:.c=.o)
 
 NP	:= 100
