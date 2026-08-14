@@ -5,9 +5,9 @@
 #include <gmp.h>
 #include <pthread.h>
 
-#define WIDTH 26000
-#define HEIGHT 26000
-#define MAX_ITR 100
+#define WIDTH 60000L
+#define HEIGHT 60000L
+#define MAX_ITR 1000
 #define CHUNK 16
 
 #define TAG_WORKER 69
@@ -261,7 +261,7 @@ void* fileWriterThreadFunction(void* arg){
     FILE* fp = fopen("mandelbrot_set_image.ppm", "wb");
     
     if (fp) {
-        fprintf(fp, "P6\n%d %d\n255\n", WIDTH, HEIGHT);
+        fprintf(fp, "P6\n%ld %ld\n255\n", WIDTH, HEIGHT);
         fwrite(buffer, sizeof(Color_t), WIDTH * HEIGHT, fp);
         fclose(fp);
     }
