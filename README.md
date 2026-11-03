@@ -1,6 +1,6 @@
 # OpenMPI_MandelbrotSet_example
 ## Description
-This is an example solution for the MandelbrotSet in parallel using Master-Worker architecture.
+This is an example solution for the MandelbrotSet in parallel using Master-Worker architecture. You can try different resolutions by changing the WIDTH and HEIGHT values in the program itself.
 
 ## Guide
 1. Clone the repository
