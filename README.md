@@ -7,3 +7,4 @@ This is an example solution for the MandelbrotSet in parallel using Master-Worke
 2. Compile requirements: gmp, mpi and make
 3. Run on single PC: mpirun -np (number of processes) hello_mpi -v
 4. Run on cluster: mpirun --hostfile /path_to/hostfile --map-by ppr:(number of processors per node):node -np (number of processes) hello_mpi -v "required hostfile for cluster"
+5. Run with make -> make run_local or make run_cluster

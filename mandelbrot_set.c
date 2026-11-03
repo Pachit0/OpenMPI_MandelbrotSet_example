@@ -5,9 +5,9 @@
 #include <gmp.h>
 #include <pthread.h>
 
-#define WIDTH 60000L
-#define HEIGHT 60000L
-#define MAX_ITR 1000
+#define WIDTH 100L
+#define HEIGHT 100L
+#define MAX_ITR 100
 #define CHUNK 16
 
 #define TAG_WORKER 69

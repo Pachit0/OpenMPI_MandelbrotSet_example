@@ -6,7 +6,7 @@ TARGET	:= mandelbrot_set
 SRCS	:= mandelbrot_set.c
 OBJS	:= $(SRCS:.c=.o)
 
-NP	:= 100
+NP	:= 8
 HOST	:= ../hostfile
 
 all: $(TARGET)
@@ -20,7 +20,10 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-run: all
+run_cluster: all
 	mpirun --hostfile $(HOST) -np $(NP) ./$(TARGET) -v
 
-.PHONY: all clean run
+run_local: all
+	mpirun -np $(NP) ./$(TARGET) -v
+
+.PHONY: all clean run_cluster run_local
